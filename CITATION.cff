@@ -23,12 +23,10 @@ repository-code: "https://github.com/pipelzm/Moleku"
 url: "https://github.com/pipelzm/Moleku"
 license: "Apache-2.0"
 
-# Descomentar y completar DESPUÉS de crear el depósito en Zenodo.
-# Usa el concept DOI (el que siempre apunta a la última versión).
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.XXXXXXX"
-#     description: "Concept DOI: archivo permanente de todas las versiones de Moleku"
+identifiers:
+- type: doi
+value: "10.5281/zenodo.21909596"
+description: "Concept DOI: archivo permanente de todas las versiones de Moleku"
 
 abstract: "Desktop platform for virtual library generation via multi-component reactions (Biginelli, GBB, Gewald), physicochemical descriptor calculation, configurable drug-likeness and structural-alert filtering, InChIKey-based deduplication, integrated local ADMET screening, and research-ready export workflows with reproducible run manifests."
 
