@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -68,6 +68,12 @@ jobs:
           chmod +x scripts/smoke_test_mac_app.sh
           scripts/smoke_test_mac_app.sh "dist/Moleku.app"
 
+      - name: Smoke test app (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          scripts\smoke_test_windows_app.ps1 "dist\Moleku\Moleku.exe"
+
       - name: (Optional) Codesign + notarize (macOS)
         if: runner.os == 'macOS' && env.MACOS_SIGN_IDENTITY != ''
         shell: bash -l {0}
@@ -106,6 +112,12 @@ jobs:
           cd dist
           ditto -c -k --sequesterRsrc --keepParent "Moleku.app" "Moleku-${{ runner.os }}.zip"
 
+      - name: Package artifact (Windows zip)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "dist\Moleku" -DestinationPath "dist\Moleku-${{ runner.os }}.zip"
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -129,3 +141,4 @@ jobs:
         with:
           files: |
             artifacts/**/Moleku-macOS.zip
+            artifacts/**/Moleku-Windows.zip
