@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+- Windows desktop build: PyInstaller packaging (`scripts/build_windows_app.ps1`), smoke test, and packaging docs (`packaging/windows/README.md`).
+- `release.yml` now builds and publishes `Moleku-Windows.zip` alongside the macOS artifact on tagged releases.
+
 ## 1.0.0
 
 - Initial public desktop release of `Moleku`.
