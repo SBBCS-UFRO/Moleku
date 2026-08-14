@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3
+
+- Linux desktop build: `Moleku-Linux.AppImage` (`scripts/build_appimage.sh`, `packaging/linux/Moleku.desktop`), smoke test (`scripts/smoke_test_linux_app.sh`), and packaging docs (`packaging/linux/README.md`).
+- `release.yml` now builds Linux on a `ubuntu-latest` runner (under a virtual display via Xvfb) and publishes `Moleku-Linux.AppImage` alongside the macOS/Windows assets — no local Linux machine needed.
+
 ## 1.1.2
 
 - Windows installer: `Moleku-Setup-<version>.exe` (Inno Setup), with Start Menu shortcuts, optional desktop icon, per-user or all-users install, and a proper uninstaller. `scripts/build_windows_app.ps1` builds it automatically when Inno Setup is available.

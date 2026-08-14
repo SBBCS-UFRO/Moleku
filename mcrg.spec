@@ -172,7 +172,7 @@ if sys.platform == "darwin" and not _SKIP_BUNDLE:
         name="Moleku.app",
         icon=_icns,
         bundle_identifier="cl.ufro.moleku",
-        version="1.1.2",
+        version="1.1.3",
         info_plist={
             "CFBundleDisplayName": "Moleku",
             "CFBundleName": "Moleku",
