@@ -121,7 +121,7 @@ pip install admet-ai
 
 ## Desktop application builds
 
-This repository includes a PyInstaller configuration in `mcrg.spec` and helper scripts for macOS packaging.
+This repository includes a PyInstaller configuration in `mcrg.spec` and helper scripts for macOS and Windows packaging (see `packaging/macos/README.md` and `packaging/windows/README.md`).
 
 ### Build locally
 
@@ -135,12 +135,21 @@ For macOS app bundles:
 PYTHON=/opt/anaconda3/envs/mcrg-build/bin/python bash scripts/build_mac_app.sh
 ```
 
+For Windows builds:
+
+```powershell
+$env:PYTHON = "C:\Miniforge3\envs\mcrg-build\python.exe"
+scripts\build_windows_app.ps1
+```
+
 Current packaged outputs include:
 
 - `dist/Moleku.app` for Apple Silicon
 - `dist/Moleku-macOS-x86_64.app` for Intel Macs
 - `dist/Moleku-macOS.zip`
 - `dist/Moleku-macOS-x86_64.zip`
+- `dist/Moleku/Moleku.exe` for Windows (onedir build)
+- `dist/Moleku-Windows.zip`
 
 ## GitHub releases
 
@@ -150,6 +159,9 @@ Recommended release assets:
 
 - `Moleku-macOS.zip` for Apple Silicon
 - `Moleku-macOS-x86_64.zip` for Intel Macs
+- `Moleku-Windows.zip` for Windows (x86_64)
+
+The `.github/workflows/release.yml` workflow builds and uploads both `Moleku-macOS.zip` and `Moleku-Windows.zip` automatically whenever a `v*` tag is pushed.
 
 ## Repository structure
 
