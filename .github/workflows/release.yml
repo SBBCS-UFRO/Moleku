@@ -10,12 +10,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, windows-latest, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Compute release version
+        id: ver
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up virtual display (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libfuse2
+          Xvfb :99 -screen 0 1280x1024x24 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
 
       - name: Set up Miniconda (conda-forge)
         uses: conda-incubator/setup-miniconda@v3
@@ -34,10 +48,21 @@ jobs:
       - name: Install dependencies
         shell: bash -l {0}
         run: |
-          mamba install -y rdkit=2026.03.1 pandas=2.1.4 numpy=1.26.4 pillow openpyxl reportlab pyinstaller pytest
+          mamba install -y rdkit=2026.03.1 pandas=2.1.4 numpy=1.26.4 pillow openpyxl reportlab pyinstaller pytest tk
           python -m pip install --upgrade pip
           python -m pip install --upgrade "setuptools<81" "pyinstaller-hooks-contrib>=2026.4"
-          python -m pip install customtkinter matplotlib "torch==2.2.2" "admet-ai==1.3.1" py4j
+          python -m pip install customtkinter matplotlib "admet-ai==1.3.1" py4j
+          # PyPI's default Linux "torch" wheel pulls in the CUDA runtime (multi-GB
+          # nvidia-*-cu12 packages) even though we only need CPU inference; the
+          # Windows/macOS wheels are already CPU-only by default. Force the CPU
+          # build on Linux explicitly (this also overrides whatever torch version
+          # admet-ai/chemprop pulled in transitively above) to keep the AppImage
+          # under GitHub's 2GB release-asset limit.
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            python -m pip install "torch==2.2.2+cpu" --index-url https://download.pytorch.org/whl/cpu
+          else
+            python -m pip install "torch==2.2.2"
+          fi
 
       - name: Dependency report
         shell: bash -l {0}
@@ -73,6 +98,13 @@ jobs:
         shell: pwsh
         run: |
           scripts\smoke_test_windows_app.ps1 "dist\Moleku\Moleku.exe"
+
+      - name: Smoke test app (Linux)
+        if: runner.os == 'Linux'
+        shell: bash -l {0}
+        run: |
+          chmod +x scripts/smoke_test_linux_app.sh
+          scripts/smoke_test_linux_app.sh "dist/Moleku/Moleku"
 
       - name: (Optional) Codesign + notarize (macOS)
         if: runner.os == 'macOS' && env.MACOS_SIGN_IDENTITY != ''
@@ -112,17 +144,49 @@ jobs:
           cd dist
           ditto -c -k --sequesterRsrc --keepParent "Moleku.app" "Moleku-${{ runner.os }}.zip"
 
+      - name: Package artifact (macOS dmg)
+        if: runner.os == 'macOS'
+        shell: bash -l {0}
+        run: |
+          chmod +x scripts/build_mac_dmg.sh
+          scripts/build_mac_dmg.sh "dist/Moleku.app" "dist/Moleku-macOS.dmg"
+
       - name: Package artifact (Windows zip)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           Compress-Archive -Path "dist\Moleku" -DestinationPath "dist\Moleku-${{ runner.os }}.zip"
 
+      - name: Install Inno Setup (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+
+      - name: Build installer (Windows, Inno Setup)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "/DMyAppVersion=${{ steps.ver.outputs.version }}" "packaging\windows\Moleku.iss"
+
+      - name: Package artifact (Linux AppImage)
+        if: runner.os == 'Linux'
+        shell: bash -l {0}
+        env:
+          APPIMAGE_EXTRACT_AND_RUN: "1"
+        run: |
+          chmod +x scripts/build_appimage.sh
+          scripts/build_appimage.sh
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Moleku-${{ runner.os }}
-          path: dist/Moleku-${{ runner.os }}.zip
+          path: |
+            dist/Moleku-${{ runner.os }}.zip
+            dist/Moleku-macOS.dmg
+            dist/Moleku-Setup-*.exe
+            dist/Moleku-Linux.AppImage
           if-no-files-found: error
 
   release:
@@ -141,4 +205,7 @@ jobs:
         with:
           files: |
             artifacts/**/Moleku-macOS.zip
+            artifacts/**/Moleku-macOS.dmg
             artifacts/**/Moleku-Windows.zip
+            artifacts/**/Moleku-Setup-*.exe
+            artifacts/**/Moleku-Linux.AppImage

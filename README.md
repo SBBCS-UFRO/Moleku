@@ -121,7 +121,7 @@ pip install admet-ai
 
 ## Desktop application builds
 
-This repository includes a PyInstaller configuration in `mcrg.spec` and helper scripts for macOS and Windows packaging (see `packaging/macos/README.md` and `packaging/windows/README.md`).
+This repository includes a PyInstaller configuration in `mcrg.spec` and helper scripts for macOS, Windows, and Linux packaging (see `packaging/macos/README.md`, `packaging/windows/README.md`, and `packaging/linux/README.md`).
 
 ### Build locally
 
@@ -142,26 +142,32 @@ $env:PYTHON = "C:\Miniforge3\envs\mcrg-build\python.exe"
 scripts\build_windows_app.ps1
 ```
 
+For Linux (AppImage) — must be run on Linux itself (PyInstaller doesn't cross-compile); see `packaging/linux/README.md`:
+
+```bash
+pyinstaller --clean --noconfirm mcrg.spec
+scripts/build_appimage.sh
+```
+
 Current packaged outputs include:
 
-- `dist/Moleku.app` for Apple Silicon
-- `dist/Moleku-macOS-x86_64.app` for Intel Macs
-- `dist/Moleku-macOS.zip`
-- `dist/Moleku-macOS-x86_64.zip`
-- `dist/Moleku/Moleku.exe` for Windows (onedir build)
-- `dist/Moleku-Windows.zip`
+- `dist/Moleku.app` for Apple Silicon, plus `dist/Moleku-macOS.dmg` (drag-to-Applications installer) and `dist/Moleku-macOS.zip` (plain zip)
+- `dist/Moleku-macOS-x86_64.app` / `.zip` for Intel Macs
+- `dist/Moleku/Moleku.exe` for Windows (onedir build), plus `dist/Moleku-Setup-<version>.exe` (Inno Setup installer) and `dist/Moleku-Windows.zip` (portable zip)
+- `dist/Moleku-Linux.AppImage` for Linux (x86_64)
 
 ## GitHub releases
 
 For end users, the recommended distribution channel is the GitHub `Releases` section rather than committing binary app bundles into the repository history.
 
-Recommended release assets:
+Recommended release assets (installer/DMG for most users, zip for portable/no-install use):
 
-- `Moleku-macOS.zip` for Apple Silicon
+- `Moleku-macOS.dmg` / `Moleku-macOS.zip` for Apple Silicon
 - `Moleku-macOS-x86_64.zip` for Intel Macs
-- `Moleku-Windows.zip` for Windows (x86_64)
+- `Moleku-Setup-<version>.exe` / `Moleku-Windows.zip` for Windows (x86_64)
+- `Moleku-Linux.AppImage` for Linux (x86_64)
 
-The `.github/workflows/release.yml` workflow builds and uploads both `Moleku-macOS.zip` and `Moleku-Windows.zip` automatically whenever a `v*` tag is pushed.
+The `.github/workflows/release.yml` workflow builds and uploads all of the above (except the manually-built Intel Mac zip) automatically whenever a `v*` tag is pushed — including the Linux AppImage, built on a `ubuntu-latest` GitHub Actions runner, so no local Linux machine is needed.
 
 ## Repository structure
 

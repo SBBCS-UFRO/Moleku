@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.4
+
+- Linux AppImage now built on `ubuntu-22.04` (glibc 2.35) instead of `ubuntu-latest` (was 24.04, glibc 2.39), so it runs on Ubuntu 22.04+/Debian 12+ instead of requiring a much newer distro.
+
+## 1.1.3
+
+- Linux desktop build: `Moleku-Linux.AppImage` (`scripts/build_appimage.sh`, `packaging/linux/Moleku.desktop`), smoke test (`scripts/smoke_test_linux_app.sh`), and packaging docs (`packaging/linux/README.md`).
+- `release.yml` now builds Linux on a `ubuntu-latest` runner (under a virtual display via Xvfb) and publishes `Moleku-Linux.AppImage` alongside the macOS/Windows assets — no local Linux machine needed.
+
+## 1.1.2
+
+- Windows installer: `Moleku-Setup-<version>.exe` (Inno Setup), with Start Menu shortcuts, optional desktop icon, per-user or all-users install, and a proper uninstaller. `scripts/build_windows_app.ps1` builds it automatically when Inno Setup is available.
+- macOS: `Moleku-macOS.dmg` drag-to-Applications disk image (`scripts/build_mac_dmg.sh`), alongside the existing plain zip.
+- `release.yml` builds and publishes both new assets on tagged releases.
+
 ## 1.1.1
 
 - Windows desktop build: PyInstaller packaging (`scripts/build_windows_app.ps1`), smoke test, and packaging docs (`packaging/windows/README.md`).
