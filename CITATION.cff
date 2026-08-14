@@ -5,7 +5,7 @@ type: software
 
 authors:
   - given-names: "Felipe"
-    family-names: "Lizama Mora"
+    family-names: "Lizama"
     email: "f.lizama03@ufromail.cl"
     affiliation: "Laboratorio de Bioinformática Estructural y Síntesis de Compuestos Bioactivos, Facultad de Medicina, Universidad de La Frontera, Temuco, Chile"
     orcid: "https://orcid.org/0009-0001-2583-9748"
@@ -14,7 +14,7 @@ authors:
     affiliation: "Laboratorio de Bioinformática Estructural y Síntesis de Compuestos Bioactivos, Facultad de Medicina, Universidad de La Frontera, Temuco, Chile"
   - given-names: "Alejandro"
     family-names: "Castro-Alvarez"
-    affiliation: "Laboratorio de Bioinformática Estructural y Síntesis de Compuestos Bioactivos, Facultad de Medicina, Universidad de La Frontera, Temuco, Chile"
+    affiliation: "Millennium Nucleus Bioproducts, Genomics and Environmental Microbiology (BioGEM), Avenida España 1680, Valparaíso 2390123, Chile"
     orcid: "https://orcid.org/0000-0001-8360-8027"
 
 version: "1.1.0"
@@ -25,7 +25,7 @@ license: "Apache-2.0"
 
 identifiers:
 - type: doi
-value: "10.5281/zenodo.21909596"
+value: "https://doi.org/10.5281/zenodo.21938951"
 description: "Concept DOI: archivo permanente de todas las versiones de Moleku"
 
 abstract: "Desktop platform for virtual library generation via multi-component reactions (Biginelli, GBB, Gewald), physicochemical descriptor calculation, configurable drug-likeness and structural-alert filtering, InChIKey-based deduplication, integrated local ADMET screening, and research-ready export workflows with reproducible run manifests."
