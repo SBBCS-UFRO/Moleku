@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+
+- Linux AppImage now built on `ubuntu-22.04` (glibc 2.35) instead of `ubuntu-latest` (was 24.04, glibc 2.39), so it runs on Ubuntu 22.04+/Debian 12+ instead of requiring a much newer distro.
+
 ## 1.1.3
 
 - Linux desktop build: `Moleku-Linux.AppImage` (`scripts/build_appimage.sh`, `packaging/linux/Moleku.desktop`), smoke test (`scripts/smoke_test_linux_app.sh`), and packaging docs (`packaging/linux/README.md`).

@@ -69,4 +69,5 @@ alive, then stops it.
 ## Notes
 
 - The AppImage is unsigned; most desktop environments will run it without complaint once it's marked executable (`chmod +x Moleku-Linux.AppImage`).
-- `.github/workflows/release.yml` builds this automatically on `ubuntu-latest` and publishes `Moleku-Linux.AppImage` alongside the macOS/Windows assets whenever a `v*` tag is pushed — no local Linux machine needed for releases.
+- `.github/workflows/release.yml` builds this automatically and publishes `Moleku-Linux.AppImage` alongside the macOS/Windows assets whenever a `v*` tag is pushed — no local Linux machine needed for releases.
+- **glibc compatibility**: AppImages require a target-system glibc at least as new as the one they were built against. CI intentionally pins the Linux build to the `ubuntu-22.04` runner (glibc 2.35) rather than `ubuntu-latest`, so the AppImage runs on Ubuntu 22.04+, Debian 12+, and comparable distros. Building locally on a newer distro (e.g. Ubuntu 24.04, glibc 2.39) raises that floor and will fail to launch on older-glibc systems with an error like `GLIBC_2.38 not found` — if broad compatibility matters, build on the oldest distro you need to support, not the newest one available.
