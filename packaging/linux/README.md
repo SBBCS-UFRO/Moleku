@@ -19,6 +19,17 @@ python scripts/generate_icons.py
 pyinstaller --clean --noconfirm mcrg.spec
 ```
 
+For the full build with local ADMET (`admet-ai`, `torch`, `py4j`), install
+`torch` from the CPU-only wheel index explicitly. PyPI's default Linux
+`torch` wheel pulls in the multi-gigabyte CUDA runtime even though this app
+only needs CPU inference — installing plain `torch==2.2.2` here will produce
+an AppImage well over GitHub's 2GB release-asset limit:
+
+```bash
+pip install "admet-ai==1.3.1" py4j
+pip install "torch==2.2.2+cpu" --index-url https://download.pytorch.org/whl/cpu
+```
+
 That produces `dist/Moleku/` (onedir folder). Then build the AppImage:
 
 ```bash
