@@ -144,24 +144,21 @@ scripts\build_windows_app.ps1
 
 Current packaged outputs include:
 
-- `dist/Moleku.app` for Apple Silicon
-- `dist/Moleku-macOS-x86_64.app` for Intel Macs
-- `dist/Moleku-macOS.zip`
-- `dist/Moleku-macOS-x86_64.zip`
-- `dist/Moleku/Moleku.exe` for Windows (onedir build)
-- `dist/Moleku-Windows.zip`
+- `dist/Moleku.app` for Apple Silicon, plus `dist/Moleku-macOS.dmg` (drag-to-Applications installer) and `dist/Moleku-macOS.zip` (plain zip)
+- `dist/Moleku-macOS-x86_64.app` / `.zip` for Intel Macs
+- `dist/Moleku/Moleku.exe` for Windows (onedir build), plus `dist/Moleku-Setup-<version>.exe` (Inno Setup installer) and `dist/Moleku-Windows.zip` (portable zip)
 
 ## GitHub releases
 
 For end users, the recommended distribution channel is the GitHub `Releases` section rather than committing binary app bundles into the repository history.
 
-Recommended release assets:
+Recommended release assets (installer/DMG for most users, zip for portable/no-install use):
 
-- `Moleku-macOS.zip` for Apple Silicon
+- `Moleku-macOS.dmg` / `Moleku-macOS.zip` for Apple Silicon
 - `Moleku-macOS-x86_64.zip` for Intel Macs
-- `Moleku-Windows.zip` for Windows (x86_64)
+- `Moleku-Setup-<version>.exe` / `Moleku-Windows.zip` for Windows (x86_64)
 
-The `.github/workflows/release.yml` workflow builds and uploads both `Moleku-macOS.zip` and `Moleku-Windows.zip` automatically whenever a `v*` tag is pushed.
+The `.github/workflows/release.yml` workflow builds and uploads all of the above (except the manually-built Intel Mac zip) automatically whenever a `v*` tag is pushed.
 
 ## Repository structure
 

@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Compute release version
+        id: ver
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
       - name: Set up Miniconda (conda-forge)
         uses: conda-incubator/setup-miniconda@v3
         with:
@@ -112,17 +117,39 @@ jobs:
           cd dist
           ditto -c -k --sequesterRsrc --keepParent "Moleku.app" "Moleku-${{ runner.os }}.zip"
 
+      - name: Package artifact (macOS dmg)
+        if: runner.os == 'macOS'
+        shell: bash -l {0}
+        run: |
+          chmod +x scripts/build_mac_dmg.sh
+          scripts/build_mac_dmg.sh "dist/Moleku.app" "dist/Moleku-macOS.dmg"
+
       - name: Package artifact (Windows zip)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           Compress-Archive -Path "dist\Moleku" -DestinationPath "dist\Moleku-${{ runner.os }}.zip"
 
+      - name: Install Inno Setup (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+
+      - name: Build installer (Windows, Inno Setup)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "/DMyAppVersion=${{ steps.ver.outputs.version }}" "packaging\windows\Moleku.iss"
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Moleku-${{ runner.os }}
-          path: dist/Moleku-${{ runner.os }}.zip
+          path: |
+            dist/Moleku-${{ runner.os }}.zip
+            dist/Moleku-macOS.dmg
+            dist/Moleku-Setup-*.exe
           if-no-files-found: error
 
   release:
@@ -141,4 +168,6 @@ jobs:
         with:
           files: |
             artifacts/**/Moleku-macOS.zip
+            artifacts/**/Moleku-macOS.dmg
             artifacts/**/Moleku-Windows.zip
+            artifacts/**/Moleku-Setup-*.exe

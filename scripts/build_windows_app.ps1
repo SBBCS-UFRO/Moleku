@@ -53,6 +53,23 @@ function Copy-LegalFiles {
     }
 }
 
+function Get-MolekuVersion {
+    $content = Get-Content (Join-Path $Root "pyproject.toml") -Raw
+    if ($content -match 'version\s*=\s*"([^"]+)"') { return $Matches[1] }
+    return "0.0.0"
+}
+
+function Find-InnoSetupCompiler {
+    if ($env:ISCC -and (Test-Path $env:ISCC)) { return $env:ISCC }
+    $candidates = @(
+        "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe",
+        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe",
+        "C:\Program Files\Inno Setup 6\ISCC.exe"
+    )
+    foreach ($c in $candidates) { if (Test-Path $c) { return $c } }
+    return $null
+}
+
 Write-Host "Building Windows app:"
 & $Py -c "import sys; print('  python:', sys.executable)"
 
@@ -80,3 +97,22 @@ Write-Host ""
 Write-Host "Listo. Ejecutable en:"
 Write-Host "  $Root\$DistPath\Moleku.exe"
 Write-Host "(Empaqueta con: Compress-Archive -Path '$DistPath' -DestinationPath 'dist\Moleku-Windows.zip')"
+
+# Build the friendly installer (Setup.exe) when Inno Setup is available and
+# the standard (non-suffixed) onedir layout was produced — packaging\windows\Moleku.iss
+# expects dist\Moleku\.
+if (-not $DistSuffix) {
+    $InnoCompiler = Find-InnoSetupCompiler
+    if ($InnoCompiler) {
+        $Version = Get-MolekuVersion
+        Write-Host ""
+        Write-Host "Building installer with Inno Setup (v$Version)..."
+        & $InnoCompiler "/DMyAppVersion=$Version" "packaging\windows\Moleku.iss"
+        if ($LASTEXITCODE -ne 0) { throw "Inno Setup compile failed" }
+        Write-Host "Instalador: $Root\dist\Moleku-Setup-$Version.exe"
+    } else {
+        Write-Host ""
+        Write-Host "Inno Setup (ISCC.exe) no encontrado; se omite el instalador .exe."
+        Write-Host "Instalalo desde https://jrsoftware.org/isinfo.php si lo quieres generar."
+    }
+}

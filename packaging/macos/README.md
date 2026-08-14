@@ -1,11 +1,13 @@
-# Moleku macOS portable release
+# Moleku macOS release
 
-`Moleku.app` is distributed as a portable macOS app bundle: the user downloads a zip, expands it, and opens the app without installing Python, RDKit, or other libraries.
+`Moleku.app` is distributed as a portable macOS app bundle: no Python, RDKit, or other libraries need to be installed separately. Two distribution formats are produced from the same `.app`:
 
-Two macOS variants can be produced:
+- `Moleku-macOS.dmg` — a disk image with `Moleku.app` next to an `Applications` symlink, for the familiar drag-to-Applications install. This is the recommended download for most users.
+- `Moleku-macOS.zip` — a plain zip of the `.app`, for users who prefer to place it wherever they like without mounting a disk image.
 
-- `Moleku-macOS.zip` for the native architecture of the build machine (for example Apple Silicon / `arm64`)
-- `Moleku-macOS-x86_64.zip` for Intel Macs
+An Intel variant is also available:
+
+- `Moleku-macOS-x86_64.zip` for Intel Macs (built separately, see below)
 
 ## Local build
 
@@ -55,9 +57,20 @@ scripts/smoke_test_mac_app.sh "dist/Moleku.app"
 
 The smoke test launches the bundle through LaunchServices, checks that the `Moleku` process stays alive, then quits it cleanly.
 
+## DMG packaging
+
+Create the drag-to-Applications disk image with:
+
+```bash
+chmod +x scripts/build_mac_dmg.sh
+scripts/build_mac_dmg.sh "dist/Moleku.app" "dist/Moleku-macOS.dmg"
+```
+
+This wraps the `.app` in a staging folder next to an `Applications` symlink and calls `hdiutil create` (native to macOS, no extra tools needed).
+
 ## Zip packaging
 
-Create the distributable artifact with:
+Create the plain-zip artifact with:
 
 ```bash
 cd dist

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2
+
+- Windows installer: `Moleku-Setup-<version>.exe` (Inno Setup), with Start Menu shortcuts, optional desktop icon, per-user or all-users install, and a proper uninstaller. `scripts/build_windows_app.ps1` builds it automatically when Inno Setup is available.
+- macOS: `Moleku-macOS.dmg` drag-to-Applications disk image (`scripts/build_mac_dmg.sh`), alongside the existing plain zip.
+- `release.yml` builds and publishes both new assets on tagged releases.
+
 ## 1.1.1
 
 - Windows desktop build: PyInstaller packaging (`scripts/build_windows_app.ps1`), smoke test, and packaging docs (`packaging/windows/README.md`).
