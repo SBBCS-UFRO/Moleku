@@ -1,3 +1,4 @@
+images/moleku_logo.png
 # Moleku
 
 | Category | Status |
