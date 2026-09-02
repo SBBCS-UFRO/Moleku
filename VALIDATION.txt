@@ -1,0 +1,8 @@
+Basic metadata checks: PASS
+Version: 1.0.0
+Version DOI: 10.5281/zenodo.22255681
+Concept DOI: 10.5281/zenodo.22255680
+Repository: https://github.com/SBBCS-UFRO/Moleku
+License: Apache-2.0
+Author count: 6
+Logo present: True

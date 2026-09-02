@@ -1,0 +1,97 @@
+cff-version: 1.2.0
+message: "If you use Moleku in your research, please cite this software."
+title: "Moleku"
+type: software
+version: "1.0.0"
+date-released: 2026-09-01
+doi: "10.5281/zenodo.22255681"
+license: Apache-2.0
+
+authors:
+  - given-names: "Felipe"
+    family-names: "Lizama"
+    affiliation: >-
+      Biotechnology Program, Universidad de La Frontera, Temuco, Chile;
+      Laboratory of Structural Bioinformatics and Bioactive Compound Synthesis,
+      Center of Excellence in Translational Medicine (CEMT), Faculty of Medicine,
+      Universidad de La Frontera, Temuco, Chile.
+
+  - given-names: "Carolyn"
+    family-names: "Mayer"
+    affiliation: >-
+      Laboratory of Structural Bioinformatics and Bioactive Compound Synthesis,
+      Center of Excellence in Translational Medicine (CEMT), Faculty of Medicine,
+      Universidad de La Frontera, Temuco, Chile;
+      Doctoral Program in Sciences, Mention in Applied Cellular and Molecular Biology,
+      Universidad de La Frontera, Temuco, Chile;
+      Millennium Nucleus Bioproducts, Genomics and Environmental Microbiology
+      (BioGEM), Chile.
+
+  - given-names: "Carlos"
+    family-names: "Arias"
+    affiliation: >-
+      Laboratory of Structural Bioinformatics and Bioactive Compound Synthesis,
+      Center of Excellence in Translational Medicine (CEMT), Faculty of Medicine,
+      Universidad de La Frontera, Temuco, Chile;
+      Millennium Nucleus Bioproducts, Genomics and Environmental Microbiology
+      (BioGEM), Chile.
+
+  - given-names: "Daniel"
+    family-names: "Ulloa"
+    affiliation: >-
+      Laboratory of Structural Bioinformatics and Bioactive Compound Synthesis,
+      Center of Excellence in Translational Medicine (CEMT), Faculty of Medicine,
+      Universidad de La Frontera, Temuco, Chile;
+      Doctoral Program in Sciences, Mention in Applied Cellular and Molecular Biology,
+      Universidad de La Frontera, Temuco, Chile;
+      Millennium Nucleus Bioproducts, Genomics and Environmental Microbiology
+      (BioGEM), Chile.
+
+  - given-names: "Abdiel"
+    family-names: "Barra"
+    affiliation: >-
+      Laboratory of Structural Bioinformatics and Bioactive Compound Synthesis,
+      Center of Excellence in Translational Medicine (CEMT), Faculty of Medicine,
+      Universidad de La Frontera, Temuco, Chile;
+      Doctoral Program in Sciences, Mention in Applied Cellular and Molecular Biology,
+      Universidad de La Frontera, Temuco, Chile;
+      Millennium Nucleus Bioproducts, Genomics and Environmental Microbiology
+      (BioGEM), Chile.
+
+  - given-names: "Alejandro"
+    family-names: "Castro-Alvarez"
+    affiliation: >-
+      Laboratory of Structural Bioinformatics and Bioactive Compound Synthesis,
+      Center of Excellence in Translational Medicine (CEMT), Faculty of Medicine,
+      Universidad de La Frontera, Temuco, Chile;
+      Millennium Nucleus Bioproducts, Genomics and Environmental Microbiology
+      (BioGEM), Chile;
+      Departamento de Ciencias Preclínicas, Facultad de Medicina,
+      Universidad de La Frontera, Temuco, Chile.
+
+repository-code: "https://github.com/SBBCS-UFRO/Moleku"
+repository-artifact: "https://doi.org/10.5281/zenodo.22255681"
+url: "https://github.com/SBBCS-UFRO/Moleku"
+
+abstract: >-
+  Moleku is an open-source desktop cheminformatics platform for reproducible
+  virtual library generation, filtering, prioritization, and export through
+  curated multicomponent reaction workflows. Version 1.0.0 supports Biginelli,
+  Groebke-Blackburn-Bienayme (GBB), and Gewald reactions and integrates reagent
+  quality control, reaction-based molecular enumeration, molecular
+  standardization, physicochemical descriptor calculation, configurable
+  drug-likeness rules, structural-alert assessment, InChIKey-based
+  deduplication, the Moleku heuristic physicochemical prioritization score,
+  local ADMET analysis, and research-oriented export workflows.
+
+keywords:
+  - cheminformatics
+  - multicomponent reactions
+  - virtual library generation
+  - molecular enumeration
+  - molecular prioritization
+  - drug-likeness
+  - ADMET
+  - RDKit
+  - reproducibility
+  - early drug discovery
